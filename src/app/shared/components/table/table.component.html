@@ -1,0 +1,44 @@
+<div class="mat-elevation-z8">
+  <div class="disp-flex">
+    <mat-form-field>
+      <mat-label>Search Employee</mat-label>
+      <input matInput (keyup)="applyFilter($event)" placeholder="Search from list" #input>
+      <mat-icon matSuffix>search</mat-icon>
+    </mat-form-field>
+    <mat-paginator class="flex-auto" [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons aria-label="Select page">
+    </mat-paginator>
+  </div>
+
+  <table mat-table [dataSource]="dataSource" matSort>
+
+    <ng-container *ngFor="let column of initColumns" [matColumnDef]="column.columnName">
+      <ng-container [ngSwitch]="column.icon">
+        <ng-container *ngSwitchCase="'radio'" matColumnDef="select">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let element">
+            <mat-radio-group [(ngModel)]="selectedRow" (ngModelChange)="selectRow(element)">
+              <mat-radio-button [value]="element" ></mat-radio-button>
+            </mat-radio-group>
+          </td>
+        </ng-container>
+
+        <ng-container *ngSwitchCase="'none'">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>{{ column.displayName }}</th>
+          <td mat-cell *matCellDef="let row">{{row[column.columnName]}}</td>
+        </ng-container>
+        <ng-container *ngSwitchCase="'edit'">
+          <th mat-header-cell *matHeaderCellDef>Action</th>
+          <td mat-cell *matCellDef="let row">
+            <mat-icon *ngIf="row.isSelected" (click)="rowAction.emit({row, type: 'edit'})">edit</mat-icon>
+          </td>
+        </ng-container>
+      </ng-container>
+
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    <tr class="mat-row" *matNoDataRow>
+      <td class="mat-cell no-records" colspan="4">No data matching the record "{{input.value}}"</td>
+    </tr>
+  </table>
+</div>

@@ -1,0 +1,16 @@
+<div>
+    <mat-toolbar color="primary">
+        <h2 class="m-0">Employee List</h2>
+        <mat-icon class="ml-3" matTooltip="add employee" (click)="openAddEditDialog('add')">add_circle_outline</mat-icon>
+    </mat-toolbar>
+
+    <ng-container *ngIf="isLoader; else table"></ng-container>
+    <ng-template #table>
+        <div class="p-3">
+            <app-table [initColumns]="columns" [tableData]="employeeList" [uniqueCol]="'id'" [selectRadio]="'selectRadio'"
+            (rowAction)="actionCalled($event)">
+        </app-table>
+        </div>
+    </ng-template>
+
+</div>

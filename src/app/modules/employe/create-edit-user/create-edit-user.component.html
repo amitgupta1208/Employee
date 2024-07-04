@@ -1,0 +1,53 @@
+<div class="container">
+  <h2 mat-dialog-title class="text-center mt-3">{{ data ? 'Edit Employee' : 'Add Employee' }}</h2>
+
+  <form class="mat-dialog-content" [formGroup]="employeeForm" (ngSubmit)="onSubmit()">
+
+    <div class="form">
+      <mat-form-field appearance="outline">
+        <mat-label>Employee Name</mat-label>
+        <input matInput formControlName="employeeName" placeholder="Employee Name" required>
+        <mat-error *ngIf="employeeForm.get('employeeName')?.invalid && employeeForm.get('employeeName')?.touched">
+          Employee Name is required and must be at least 3 characters long.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form"><mat-form-field appearance="outline">
+        <mat-label>Salary</mat-label>
+        <input matInput formControlName="salary" placeholder="Salary" type="number" required>
+        <mat-error *ngIf="employeeForm.get('salary')?.invalid && employeeForm.get('salary')?.touched">
+          Salary is required and must be a valid number.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field appearance="outline">
+        <mat-label>Mobile Number</mat-label>
+        <input matInput formControlName="mobileNumber" placeholder="Mobile Number" required>
+        <mat-error *ngIf="employeeForm.get('mobileNumber')?.invalid && employeeForm.get('mobileNumber')?.touched">
+          Mobile Number is required and must be a valid 10-digit number.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="form">
+      <mat-form-field appearance="outline">
+        <mat-label>Status</mat-label>
+        <mat-select disableRipple formControlName="status" placeholder="Status">
+          <mat-option value="Active">Active</mat-option>
+          <mat-option value="Inactive">Inactive</mat-option>
+        </mat-select>
+        <mat-error *ngIf="employeeForm.get('status')?.invalid && employeeForm.get('status')?.touched">
+          Status is required.
+        </mat-error>
+      </mat-form-field>
+    </div>
+
+    <div mat-dialog-actions>
+      <button type="button" (click)="onCancel()" mat-flat-button style="background-color:red;">Cancel</button>
+      <button type="submit" mat-flat-button color="primary" [disabled]="employeeForm.invalid">{{ data ? 'Update' : 'Save' }}</button>
+    </div>
+  </form>
+</div>
